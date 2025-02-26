@@ -1,4 +1,5 @@
 from datetime import datetime
+from abc import ABC, abstractmethod
 
 class Cliente:
     def __init__(self, endereco):
@@ -125,3 +126,13 @@ class Historico:
             "valor": transacao.valor,
             "data": datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         }
+
+class Transacao(ABC):
+    @property
+    @abstractmethod
+    def valor(self):
+        pass
+
+    @abstractmethod
+    def registrar(self, conta):
+        pass
