@@ -1,5 +1,6 @@
 from datetime import datetime
 from abc import ABC, abstractmethod
+import textwrap
 
 class Cliente:
     def __init__(self, endereco):
@@ -164,3 +165,46 @@ class Deposito(Transacao):
         
         if sucesso_trasacao:
             conta.historico.adicionar_transacao(self)
+
+def menu():
+    menu = """\n
+    ========================= MENU =========================
+    [d]\tDepositar
+    [s]\tSacar
+    [e]\tExtrato
+    [nc]\tNova Conta
+    [lc]\tListar Contas
+    [nu]\tNovo Usuario
+    [q]\tSair
+    Digite a opção desejada: """
+    
+    return input(textwrap.dedent(menu))
+
+def filtrar_cliente(cpf, clientes):
+    clientes_filtrados = [cliente for cliente in clientes if cliente.cpf == cpf]
+    return clientes_filtrados[0] if clientes_filtrados else None
+
+def recuperar_conta_cliente(cliente):
+    if not cliente.contas:
+        print('\n||| Não há contas cadastradas para esse cliente. |||')
+        return
+    
+    # FIXME: Não permite cliente escolher a conta
+    return cliente.contas[0]
+
+def depositar(clientes):
+    cpf = input('Informe o CPF do cliente: ')
+    cliente = filtrar_cliente(cpf, clientes)
+
+    if not cliente:
+        print('\n||| Cliente não encontrado. |||')
+        return
+    
+    valor = float(input('Informe o valor do deposito: '))
+    transacao = Deposito(valor)
+
+    conta = recuperar_conta_cliente(cliente)
+    if not conta:
+        return
+    
+    cliente.realizar_transacao(conta, transacao)
