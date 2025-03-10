@@ -251,3 +251,22 @@ def exibir_extrato(clientes):
     print(extrato)
     print(f'\nSaldo:\n\tR$ {conta.saldo:.2f}')
     print ('=============================================')
+
+def criar_cliente(clientes):
+    cpf = input('Informe o CPF (Somente Números)')
+    cliente = filtrar_cliente(cpf, clientes)
+
+    if cliente:
+        print('\n||| Cliente já cadastrado. |||')
+        return
+    
+    nome = input('Informe o nome do cliente: ')
+    data_nascimento = input('Informe a data de nascimento (DD/MM/AAAA): ')
+    endereco = input('Informe o endereço do cliente (Lograudouro, nmro - bairro - cidade/sigla estado): ')
+
+    cliente = PessoaFisica(nome=nome, data_nascimento=data_nascimento, cpf=cpf, endereco=endereco)
+
+    clientes.append(cliente)
+
+    print('\n ======== CLIENTE CRIADO COM SUCESSO ========')
+    
