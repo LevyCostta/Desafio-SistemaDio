@@ -269,4 +269,22 @@ def criar_cliente(clientes):
     clientes.append(cliente)
 
     print('\n ======== CLIENTE CRIADO COM SUCESSO ========')
+
+def criar_conta(numero_conta, clientes, contas):
+    cpf = input('Informe o CPF do cliente: ')
+    cliente = filtrar_cliente(cpf, clientes)
+
+    if not cliente:
+        print('\n||| Cliente não encontrado. |||')
+        return
     
+    conta = ContaCorrente.nova_conta(cliente=cliente, numero=numero_conta)
+    contas.append(conta)
+    cliente.contas.append(conta)
+
+    print('\n ======== CONTA CRIADA COM SUCESSO ========')
+
+def listar_contas(contas):
+    for conta in contas:
+        print ('='*100)
+        print(textwrap.dedent(str(conta)))
